@@ -80,6 +80,21 @@
     }
     .nav-links a:hover { color: var(--gold); }
     .burger { display: none; background: none; border: none; color: var(--text); cursor: pointer; }
+    .lang-toggle {
+      display: flex; align-items: center; gap: 0;
+      background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+      overflow: hidden; margin-left: 16px;
+    }
+    .lang-btn {
+      padding: 6px 14px; font-size: .75rem; font-weight: 600;
+      font-family: 'Sora', sans-serif; letter-spacing: .06em;
+      text-transform: uppercase; border: none; cursor: pointer;
+      background: transparent; color: var(--text-muted);
+      transition: all .3s var(--ease);
+    }
+    .lang-btn.active {
+      background: var(--gold); color: var(--bg);
+    }
 
     /* HERO */
     .hero {
@@ -399,6 +414,18 @@
     }
     .contact-card a:hover { color: var(--gold); }
 
+    /* MAP */
+    .map-wrap {
+      border-radius: var(--radius); overflow: hidden;
+      border: 1px solid var(--border); box-shadow: var(--shadow, 0 20px 40px -15px rgba(0,0,0,.05));
+    }
+    .map-wrap iframe {
+      width: 100%; height: 420px; display: block; border: none;
+      filter: grayscale(.6) brightness(.8) contrast(1.1);
+      transition: filter .4s var(--ease);
+    }
+    .map-wrap:hover iframe { filter: grayscale(.2) brightness(.9) contrast(1.05); }
+
     /* FOOTER */
     footer {
       border-top: 1px solid var(--border); padding: 40px 0;
@@ -444,32 +471,38 @@
   <div class="container">
     <div class="logo">Top <span>Car</span></div>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#catalog">Каталог</a></li>
-      <li><a href="#why">Преимущества</a></li>
-      <li><a href="#team">Команда</a></li>
-      <li><a href="#reviews">Отзывы</a></li>
-      <li><a href="#contacts">Контакты</a></li>
+      <li><a href="#catalog" data-i18n="nav_catalog">Каталог</a></li>
+      <li><a href="#why" data-i18n="nav_why">Преимущества</a></li>
+      <li><a href="#team" data-i18n="nav_team">Команда</a></li>
+      <li><a href="#reviews" data-i18n="nav_reviews">Отзывы</a></li>
+      <li><a href="#contacts" data-i18n="nav_contacts">Контакты</a></li>
     </ul>
+    <div style="display:flex;align-items:center;gap:8px">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('ru')">RU</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
     <button class="burger" id="burger" aria-label="Меню">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
     </button>
+    </div>
   </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
   <div>
-    <div class="hero-badge reveal">Элитный автосалон</div>
-    <h1 class="reveal">Автомобили<br><em>премиум-класса</em></h1>
-    <p class="reveal">Эксклюзивные предложения от ведущих мировых марок. Безупречный сервис и индивидуальный подход к каждому клиенту.</p>
-    <a href="#catalog" class="btn-primary reveal">
+    <div class="hero-badge reveal" data-i18n="hero_badge">Элитный автосалон</div>
+    <h1 class="reveal" data-i18n="hero_title">Автомобили<br><em>премиум-класса</em></h1>
+    <p class="reveal" data-i18n="hero_sub">Эксклюзивные предложения от ведущих мировых марок. Безупречный сервис и индивидуальный подход к каждому клиенту.</p>
+    <a href="#catalog" class="btn-primary reveal" data-i18n="hero_btn">
       Каталог автомобилей
       <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
     </a>
     <div class="stats reveal">
-      <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Продано авто</div></div>
-      <div class="stat"><div class="stat-num">5+</div><div class="stat-label">Лет на рынке</div></div>
-      <div class="stat"><div class="stat-num">98%</div><div class="stat-label">Довольных клиентов</div></div>
+      <div class="stat"><div class="stat-num">500+</div><div class="stat-label" data-i18n="stat_sold">Продано авто</div></div>
+      <div class="stat"><div class="stat-num">5+</div><div class="stat-label" data-i18n="stat_years">Лет на рынке</div></div>
+      <div class="stat"><div class="stat-num">98%</div><div class="stat-label" data-i18n="stat_happy">Довольных клиентов</div></div>
     </div>
   </div>
 </section>
@@ -479,9 +512,9 @@
   <div class="section-glow"></div>
   <div class="container">
     <div class="section-header reveal">
-      <div class="section-label">Каталог</div>
-      <h2 class="section-title">Автомобили в наличии</h2>
-      <p class="section-sub">Каждый автомобиль прошёл полную проверку и готов к выдаче</p>
+      <div class="section-label" data-i18n="cat_label">Каталог</div>
+      <h2 class="section-title" data-i18n="cat_title">Автомобили в наличии</h2>
+      <p class="section-sub" data-i18n="cat_sub">Каждый автомобиль прошёл полную проверку и готов к выдаче</p>
     </div>
     <div class="catalog-grid">
 
@@ -631,38 +664,38 @@
   <div class="section-glow"></div>
   <div class="container">
     <div class="section-header reveal">
-      <div class="section-label">Преимущества</div>
-      <h2 class="section-title">Почему выбирают нас</h2>
-      <p class="section-sub">Безупречная репутация, прозрачные условия и индивидуальный подход</p>
+      <div class="section-label" data-i18n="why_label">Преимущества</div>
+      <h2 class="section-title" data-i18n="why_title">Почему выбирают нас</h2>
+      <p class="section-sub" data-i18n="why_sub">Безупречная репутация, прозрачные условия и индивидуальный подход</p>
     </div>
     <div class="features-grid">
       <div class="feature reveal">
         <div class="feature-icon">
           <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
         </div>
-        <h3>Проверка истории</h3>
-        <p>Юридическая чистота и полная диагностика каждого автомобиля на стенде перед продажей</p>
+        <h3 data-i18n="feat1_t">Проверка истории</h3>
+        <p data-i18n="feat1_p">Юридическая чистота и полная диагностика каждого автомобиля на стенде перед продажей</p>
       </div>
       <div class="feature reveal">
         <div class="feature-icon">
           <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </div>
-        <h3>Гарантия до 3 лет</h3>
-        <p>Расширенная гарантия и сервисная поддержка на весь период владения автомобилем</p>
+        <h3 data-i18n="feat2_t">Гарантия до 3 лет</h3>
+        <p data-i18n="feat2_p">Расширенная гарантия и сервисная поддержка на весь период владения автомобилем</p>
       </div>
       <div class="feature reveal">
         <div class="feature-icon">
           <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
         </div>
-        <h3>Доставка по Европе</h3>
-        <p>Персональная логистика — доставим автомобиль в любую точку Европы за 5–10 дней</p>
+        <h3 data-i18n="feat3_t">Доставка по Европе</h3>
+        <p data-i18n="feat3_p">Персональная логистика — доставим автомобиль в любую точку Европы за 5–10 дней</p>
       </div>
       <div class="feature reveal">
         <div class="feature-icon">
           <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
         </div>
-        <h3>Без скрытых комиссий</h3>
-        <p>Цена в каталоге — финальная цена. Никаких доплат, наценок или дополнительных сборов</p>
+        <h3 data-i18n="feat4_t">Без скрытых комиссий</h3>
+        <p data-i18n="feat4_p">Цена в каталоге — финальная цена. Никаких доплат, наценок или дополнительных сборов</p>
       </div>
     </div>
   </div>
@@ -673,9 +706,9 @@
   <div class="section-glow"></div>
   <div class="container">
     <div class="section-header reveal">
-      <div class="section-label">Команда</div>
-      <h2 class="section-title">Наши специалисты</h2>
-      <p class="section-sub">Профессионалы с многолетним опытом в сегменте люксовых автомобилей</p>
+      <div class="section-label" data-i18n="team_label">Команда</div>
+      <h2 class="section-title" data-i18n="team_title">Наши специалисты</h2>
+      <p class="section-sub" data-i18n="team_sub">Профессионалы с многолетним опытом в сегменте люксовых автомобилей</p>
     </div>
     <div class="team-grid">
       <div class="member reveal">
@@ -684,8 +717,8 @@
         </div>
         <div class="member-info">
           <h3>Алексей Морозов</h3>
-          <div class="role">Генеральный директор</div>
-          <div class="exp">Стаж 12 лет</div>
+          <div class="role" data-i18n="role1">Генеральный директор</div>
+          <div class="exp" data-i18n="exp1">Стаж 12 лет</div>
         </div>
       </div>
       <div class="member reveal">
@@ -694,8 +727,8 @@
         </div>
         <div class="member-info">
           <h3>Екатерина Волкова</h3>
-          <div class="role">Менеджер по продажам</div>
-          <div class="exp">Стаж 7 лет</div>
+          <div class="role" data-i18n="role2">Менеджер по продажам</div>
+          <div class="exp" data-i18n="exp2">Стаж 7 лет</div>
         </div>
       </div>
       <div class="member reveal">
@@ -704,8 +737,8 @@
         </div>
         <div class="member-info">
           <h3>Дмитрий Соколов</h3>
-          <div class="role">Технический эксперт</div>
-          <div class="exp">Стаж 9 лет</div>
+          <div class="role" data-i18n="role3">Технический эксперт</div>
+          <div class="exp" data-i18n="exp3">Стаж 9 лет</div>
         </div>
       </div>
       <div class="member reveal">
@@ -714,8 +747,8 @@
         </div>
         <div class="member-info">
           <h3>Анна Кузнецова</h3>
-          <div class="role">Финансовый консультант</div>
-          <div class="exp">Стаж 6 лет</div>
+          <div class="role" data-i18n="role4">Финансовый консультант</div>
+          <div class="exp" data-i18n="exp4">Стаж 6 лет</div>
         </div>
       </div>
     </div>
@@ -727,9 +760,9 @@
   <div class="section-glow"></div>
   <div class="container">
     <div class="section-header reveal">
-      <div class="section-label">Отзывы</div>
-      <h2 class="section-title">Мнения клиентов</h2>
-      <p class="section-sub">Доверие, которое говорит само за себя</p>
+      <div class="section-label" data-i18n="rev_label">Отзывы</div>
+      <h2 class="section-title" data-i18n="rev_title">Мнения клиентов</h2>
+      <p class="section-sub" data-i18n="rev_sub">Доверие, которое говорит само за себя</p>
     </div>
     <div class="reviews-grid">
       <div class="review reveal">
@@ -760,16 +793,16 @@
 
     <!-- REVIEW FORM -->
     <div class="review-form reveal">
-      <h3>Оставить отзыв</h3>
+      <h3 data-i18n="form_title">Оставить отзыв</h3>
       <div class="form-row">
-        <label for="reviewName">Ваше имя</label>
-        <input type="text" id="reviewName" placeholder="Имя Фамилия">
+        <label for="reviewName" data-i18n="form_name">Ваше имя</label>
+        <input type="text" id="reviewName" data-i18n-ph="form_name_ph" placeholder="Имя Фамилия">
       </div>
       <div class="form-row">
-        <label for="reviewText">Ваш отзыв</label>
-        <textarea id="reviewText" placeholder="Расскажите о вашем опыте..."></textarea>
+        <label for="reviewText" data-i18n="form_text">Ваш отзыв</label>
+        <textarea id="reviewText" data-i18n-ph="form_text_ph" placeholder="Расскажите о вашем опыте..."></textarea>
       </div>
-      <button class="btn-primary" style="width:100%;justify-content:center" onclick="submitReview()">Отправить отзыв</button>
+      <button class="btn-primary" style="width:100%;justify-content:center" onclick="submitReview()" data-i18n="form_btn">Отправить отзыв</button>
     </div>
   </div>
 </section>
@@ -779,23 +812,23 @@
   <div class="section-glow"></div>
   <div class="container">
     <div class="section-header reveal">
-      <div class="section-label">Контакты</div>
-      <h2 class="section-title">Свяжитесь с нами</h2>
-      <p class="section-sub">Мы на связи — выберите удобный способ</p>
+      <div class="section-label" data-i18n="con_label">Контакты</div>
+      <h2 class="section-title" data-i18n="con_title">Свяжитесь с нами</h2>
+      <p class="section-sub" data-i18n="con_sub">Мы на связи — выберите удобный способ</p>
     </div>
     <div class="contacts-wrap reveal">
       <div class="contact-card">
         <div class="contact-icon">
           <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         </div>
-        <h3>Email</h3>
+        <h3 data-i18n="con_email">Email</h3>
         <a href="mailto:emiladiev22@gmail.com">emiladiev22@gmail.com</a>
       </div>
       <div class="contact-card">
         <div class="contact-icon">
           <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
         </div>
-        <h3>Телефон</h3>
+        <h3 data-i18n="con_phone">Телефон</h3>
         <a href="tel:+491234567890">+49 123 456 7890</a>
       </div>
       <div class="contact-card">
@@ -809,15 +842,119 @@
   </div>
 </section>
 
+<!-- MAP -->
+<section id="map">
+  <div class="section-glow"></div>
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-label" data-i18n="map_label">Наш шоурум</div>
+      <h2 class="section-title" data-i18n="map_title">Где нас найти</h2>
+      <p class="section-sub" data-i18n="map_sub">Дубай, ОАЭ — посетите наш шоурум лично</p>
+    </div>
+    <div class="map-wrap reveal">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3609.7!2d55.2708!3d25.2048!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f43496ad9c645%3A0xbde66e5084295162!2sDubai%20Mall!5e0!3m2!1sru!2sae!4v1700000000000!5m2!1sru!2sae" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer>
   <div class="container">
-    <p>&copy; 2026 Top Car. Все права защищены.</p>
+    <p data-i18n="footer">&copy; 2026 Top Car. Все права защищены.</p>
   </div>
 </footer>
 
 <script>
-  // Mobile menu
+  // ===== i18n =====
+  var currentLang = 'ru';
+  var i18n = {
+    ru: {
+      nav_catalog: 'Каталог', nav_why: 'Преимущества', nav_team: 'Команда',
+      nav_reviews: 'Отзывы', nav_contacts: 'Контакты',
+      hero_badge: 'Элитный автосалон',
+      hero_title: 'Автомобили<br><em>премиум-класса</em>',
+      hero_sub: 'Эксклюзивные предложения от ведущих мировых марок. Безупречный сервис и индивидуальный подход к каждому клиенту.',
+      hero_btn: 'Каталог автомобилей <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>',
+      stat_sold: 'Продано авто', stat_years: 'Лет на рынке', stat_happy: 'Довольных клиентов',
+      cat_label: 'Каталог', cat_title: 'Автомобили в наличии',
+      cat_sub: 'Каждый автомобиль прошёл полную проверку и готов к выдаче',
+      why_label: 'Преимущества', why_title: 'Почему выбирают нас',
+      why_sub: 'Безупречная репутация, прозрачные условия и индивидуальный подход',
+      feat1_t: 'Проверка истории', feat1_p: 'Юридическая чистота и полная диагностика каждого автомобиля на стенде перед продажей',
+      feat2_t: 'Гарантия до 3 лет', feat2_p: 'Расширенная гарантия и сервисная поддержка на весь период владения автомобилем',
+      feat3_t: 'Доставка по Европе', feat3_p: 'Персональная логистика — доставим автомобиль в любую точку Европы за 5–10 дней',
+      feat4_t: 'Без скрытых комиссий', feat4_p: 'Цена в каталоге — финальная цена. Никаких доплат, наценок или дополнительных сборов',
+      team_label: 'Команда', team_title: 'Наши специалисты',
+      team_sub: 'Профессионалы с многолетним опытом в сегменте люксовых автомобилей',
+      role1: 'Генеральный директор', exp1: 'Стаж 12 лет',
+      role2: 'Менеджер по продажам', exp2: 'Стаж 7 лет',
+      role3: 'Технический эксперт', exp3: 'Стаж 9 лет',
+      role4: 'Финансовый консультант', exp4: 'Стаж 6 лет',
+      rev_label: 'Отзывы', rev_title: 'Мнения клиентов',
+      rev_sub: 'Доверие, которое говорит само за себя',
+      form_title: 'Оставить отзыв', form_name: 'Ваше имя', form_text: 'Ваш отзыв',
+      form_name_ph: 'Имя Фамилия', form_text_ph: 'Расскажите о вашем опыте...',
+      form_btn: 'Отправить отзыв', form_alert: 'Пожалуйста, заполните все поля.',
+      con_label: 'Контакты', con_title: 'Свяжитесь с нами',
+      con_sub: 'Мы на связи — выберите удобный способ',
+      con_email: 'Email', con_phone: 'Телефон',
+      map_label: 'Наш шоурум', map_title: 'Где нас найти',
+      map_sub: 'Дубай, ОАЭ — посетите наш шоурум лично',
+      footer: '&copy; 2026 Top Car. Все права защищены.'
+    },
+    en: {
+      nav_catalog: 'Catalog', nav_why: 'Advantages', nav_team: 'Team',
+      nav_reviews: 'Reviews', nav_contacts: 'Contacts',
+      hero_badge: 'Elite Dealership',
+      hero_title: 'Premium<br><em>automobiles</em>',
+      hero_sub: 'Exclusive offers from the world\'s leading brands. Impeccable service and a personal approach to every client.',
+      hero_btn: 'View catalog <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>',
+      stat_sold: 'Cars sold', stat_years: 'Years in market', stat_happy: 'Happy clients',
+      cat_label: 'Catalog', cat_title: 'Cars in stock',
+      cat_sub: 'Every car has been fully inspected and is ready for delivery',
+      why_label: 'Advantages', why_title: 'Why choose us',
+      why_sub: 'Impeccable reputation, transparent terms, and personalized service',
+      feat1_t: 'History check', feat1_p: 'Full legal and technical inspection of every vehicle before sale',
+      feat2_t: 'Up to 3 year warranty', feat2_p: 'Extended warranty and service support for the entire ownership period',
+      feat3_t: 'Delivery across Europe', feat3_p: 'Personal logistics — we deliver your car anywhere in Europe within 5–10 days',
+      feat4_t: 'No hidden fees', feat4_p: 'The catalog price is the final price. No surcharges, markups or additional fees',
+      team_label: 'Team', team_title: 'Our specialists',
+      team_sub: 'Professionals with years of experience in the luxury car segment',
+      role1: 'Chief Executive Officer', exp1: '12 years experience',
+      role2: 'Sales Manager', exp2: '7 years experience',
+      role3: 'Technical Expert', exp3: '9 years experience',
+      role4: 'Financial Consultant', exp4: '6 years experience',
+      rev_label: 'Reviews', rev_title: 'Client testimonials',
+      rev_sub: 'Trust that speaks for itself',
+      form_title: 'Leave a review', form_name: 'Your name', form_text: 'Your review',
+      form_name_ph: 'Full Name', form_text_ph: 'Tell us about your experience...',
+      form_btn: 'Submit review', form_alert: 'Please fill in all fields.',
+      con_label: 'Contacts', con_title: 'Get in touch',
+      con_sub: 'We are available — choose a convenient way',
+      con_email: 'Email', con_phone: 'Phone',
+      map_label: 'Our showroom', map_title: 'Find us',
+      map_sub: 'Dubai, UAE — visit our showroom in person',
+      footer: '&copy; 2026 Top Car. All rights reserved.'
+    }
+  };
+
+  function setLang(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.querySelectorAll('.lang-btn').forEach(function(b) {
+      b.classList.toggle('active', b.textContent.trim().toLowerCase() === lang);
+    });
+    document.querySelectorAll('[data-i18n]').forEach(function(el) {
+      var key = el.getAttribute('data-i18n');
+      if (i18n[lang][key]) el.innerHTML = i18n[lang][key];
+    });
+    document.querySelectorAll('[data-i18n-ph]').forEach(function(el) {
+      var key = el.getAttribute('data-i18n-ph');
+      if (i18n[lang][key]) el.placeholder = i18n[lang][key];
+    });
+  }
+
+  // ===== Mobile menu =====
   document.getElementById('burger').addEventListener('click', function() {
     document.getElementById('navLinks').classList.toggle('open');
   });
@@ -827,7 +964,7 @@
     });
   });
 
-  // Scroll reveal
+  // ===== Scroll reveal =====
   var observer = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry) {
       if (entry.isIntersecting) {
@@ -844,11 +981,11 @@
     observer.observe(el);
   });
 
-  // Review submit
+  // ===== Review submit =====
   function submitReview() {
     var name = document.getElementById('reviewName').value.trim();
     var text = document.getElementById('reviewText').value.trim();
-    if (!name || !text) { alert('Пожалуйста, заполните все поля.'); return; }
+    if (!name || !text) { alert(i18n[currentLang].form_alert); return; }
 
     var initials = name.split(' ').map(function(w) { return w[0]; }).join('').toUpperCase().slice(0, 2);
     var grid = document.querySelector('.reviews-grid');
@@ -859,7 +996,7 @@
       '<p class="review-text">' + text.replace(/</g, '&lt;') + '</p>' +
       '<div class="review-footer"><div class="review-avatar">' + initials.replace(/</g, '&lt;') + '</div>' +
       '<div><div class="review-author">' + name.replace(/</g, '&lt;') + '</div>' +
-      '<div class="review-date">Апрель 2026</div></div></div>';
+      '<div class="review-date">2026</div></div></div>';
     grid.appendChild(div);
 
     document.getElementById('reviewName').value = '';
