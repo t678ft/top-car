@@ -198,12 +198,33 @@
       transition: transform .6s var(--ease);
     }
     .car-card:hover .car-img { transform: scale(1.03); }
-    .car-img-wrap { overflow: hidden; position: relative; }
+    .car-img-wrap { overflow: hidden; position: relative; background: var(--card); }
     .car-img-wrap::after {
       content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
       background: linear-gradient(to top, var(--card), transparent);
-      pointer-events: none;
+      pointer-events: none; z-index: 2;
     }
+
+    /* SHOWROOM EFFECT — fades image edges into dark card bg */
+    .car-img-wrap::before {
+      content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background:
+        linear-gradient(to right, var(--card) 0%, transparent 15%, transparent 85%, var(--card) 100%),
+        linear-gradient(to bottom, var(--card) 0%, transparent 20%, transparent 75%, var(--card) 100%);
+      mix-blend-mode: normal;
+    }
+    .car-img {
+      -webkit-mask-image: radial-gradient(ellipse 85% 80% at 50% 45%, #000 35%, transparent 75%);
+      mask-image: radial-gradient(ellipse 85% 80% at 50% 45%, #000 35%, transparent 75%);
+    }
+
+    /* Spotlight reflection under car */
+    .car-spotlight {
+      position: absolute; bottom: -10px; left: 15%; right: 15%; height: 40px;
+      background: radial-gradient(ellipse at center, rgba(201,169,110,.08) 0%, transparent 70%);
+      filter: blur(8px); z-index: 0; pointer-events: none;
+    }
+
     .car-info { padding: 24px; position: relative; z-index: 2; }
     .car-info h3 {
       font-family: 'Sora', sans-serif; font-size: 1.05rem;
@@ -459,30 +480,34 @@
     </div>
     <div class="catalog-grid">
 
+      <!-- BMW 530i — user photo -->
       <div class="car-card reveal">
         <div class="car-img-wrap">
-          <img class="car-img" src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600&h=440&fit=crop" alt="BMW M5 Competition" loading="lazy">
+          <img class="car-img" src="images/bmw-530i.jpg" alt="BMW 530i M Sport" loading="lazy">
+          <div class="car-spotlight"></div>
         </div>
         <div class="car-info">
-          <h3>BMW M5 Competition</h3>
-          <div class="car-meta">2024 &middot; 4.4L V8 Twin-Turbo &middot; 625 л.с.</div>
+          <h3>BMW 530i M Sport</h3>
+          <div class="car-meta">2024 &middot; 2.0L I4 Turbo &middot; 245 л.с.</div>
           <div class="car-bottom">
-            <div class="car-price">&euro; 134 900</div>
-            <div class="car-tags"><span class="tag">Седан</span></div>
+            <div class="car-price">&euro; 62 900</div>
+            <div class="car-tags"><span class="tag">Седан</span><span class="tag">M Sport</span></div>
           </div>
         </div>
       </div>
 
+      <!-- BMW X5 — user photo -->
       <div class="car-card reveal">
         <div class="car-img-wrap">
-          <img class="car-img" src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&h=440&fit=crop" alt="Mercedes-AMG GT 63 S" loading="lazy">
+          <img class="car-img" src="images/bmw-x5.jpg" alt="BMW X5 xDrive40i" loading="lazy">
+          <div class="car-spotlight"></div>
         </div>
         <div class="car-info">
-          <h3>Mercedes-AMG GT 63 S</h3>
-          <div class="car-meta">2024 &middot; 4.0L V8 Biturbo &middot; 639 л.с.</div>
+          <h3>BMW X5 xDrive40i</h3>
+          <div class="car-meta">2024 &middot; 3.0L I6 Turbo &middot; 380 л.с.</div>
           <div class="car-bottom">
-            <div class="car-price">&euro; 178 500</div>
-            <div class="car-tags"><span class="tag">Купе</span></div>
+            <div class="car-price">&euro; 89 500</div>
+            <div class="car-tags"><span class="tag">Внедорожник</span><span class="tag">M Sport</span></div>
           </div>
         </div>
       </div>
@@ -490,6 +515,7 @@
       <div class="car-card reveal">
         <div class="car-img-wrap">
           <img class="car-img" src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=600&h=440&fit=crop" alt="Audi RS Q8" loading="lazy">
+          <div class="car-spotlight"></div>
         </div>
         <div class="car-info">
           <h3>Audi RS Q8</h3>
@@ -504,6 +530,7 @@
       <div class="car-card reveal">
         <div class="car-img-wrap">
           <img class="car-img" src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=600&h=440&fit=crop" alt="Ford Mustang GT" loading="lazy">
+          <div class="car-spotlight"></div>
         </div>
         <div class="car-info">
           <h3>Ford Mustang GT</h3>
@@ -518,6 +545,7 @@
       <div class="car-card reveal">
         <div class="car-img-wrap">
           <img class="car-img" src="https://images.unsplash.com/photo-1542362567-b07e54358753?w=600&h=440&fit=crop" alt="McLaren 720S" loading="lazy">
+          <div class="car-spotlight"></div>
         </div>
         <div class="car-info">
           <h3>McLaren 720S</h3>
@@ -532,6 +560,7 @@
       <div class="car-card reveal">
         <div class="car-img-wrap">
           <img class="car-img" src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&h=440&fit=crop" alt="Chevrolet Corvette Z06" loading="lazy">
+          <div class="car-spotlight"></div>
         </div>
         <div class="car-info">
           <h3>Chevrolet Corvette Z06</h3>
@@ -545,28 +574,30 @@
 
       <div class="car-card reveal">
         <div class="car-img-wrap">
-          <img class="car-img" src="https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=600&h=440&fit=crop" alt="BMW M4 Competition" loading="lazy">
+          <img class="car-img" src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&h=440&fit=crop" alt="Mercedes-AMG GT 63 S" loading="lazy">
+          <div class="car-spotlight"></div>
         </div>
         <div class="car-info">
-          <h3>BMW M4 Competition</h3>
-          <div class="car-meta">2024 &middot; 3.0L I6 Twin-Turbo &middot; 530 л.с.</div>
+          <h3>Mercedes-AMG GT 63 S</h3>
+          <div class="car-meta">2024 &middot; 4.0L V8 Biturbo &middot; 639 л.с.</div>
           <div class="car-bottom">
-            <div class="car-price">&euro; 98 500</div>
-            <div class="car-tags"><span class="tag">Купе</span><span class="tag">Спорт</span></div>
+            <div class="car-price">&euro; 178 500</div>
+            <div class="car-tags"><span class="tag">Купе</span></div>
           </div>
         </div>
       </div>
 
       <div class="car-card reveal">
         <div class="car-img-wrap">
-          <img class="car-img" src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=600&h=440&fit=crop" alt="BMW X5 M Competition" loading="lazy">
+          <img class="car-img" src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600&h=440&fit=crop" alt="BMW M5 Competition" loading="lazy">
+          <div class="car-spotlight"></div>
         </div>
         <div class="car-info">
-          <h3>BMW X5 M Competition</h3>
+          <h3>BMW M5 Competition</h3>
           <div class="car-meta">2024 &middot; 4.4L V8 Twin-Turbo &middot; 625 л.с.</div>
           <div class="car-bottom">
-            <div class="car-price">&euro; 145 900</div>
-            <div class="car-tags"><span class="tag">Внедорожник</span><span class="tag">Спорт</span></div>
+            <div class="car-price">&euro; 134 900</div>
+            <div class="car-tags"><span class="tag">Седан</span></div>
           </div>
         </div>
       </div>
@@ -574,6 +605,7 @@
       <div class="car-card reveal">
         <div class="car-img-wrap">
           <img class="car-img" src="https://images.unsplash.com/photo-1619682817481-e994891cd1f5?w=600&h=440&fit=crop" alt="Toyota Camry" loading="lazy">
+          <div class="car-spotlight"></div>
         </div>
         <div class="car-info">
           <h3>Toyota Camry</h3>
