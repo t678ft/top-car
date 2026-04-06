@@ -333,6 +333,32 @@
     }
     .review:hover { border-color: rgba(201,169,110,.15); }
     .review-stars { color: var(--gold); font-size: .9rem; margin-bottom: 20px; letter-spacing: 3px; }
+    .star-empty { color: var(--text-muted); }
+
+    /* STAR PICKER */
+    .star-picker { display: flex; gap: 4px; margin-bottom: 20px; }
+    .star-picker span {
+      font-size: 1.6rem; cursor: pointer; color: var(--text-muted);
+      transition: color .2s var(--ease), transform .2s var(--ease);
+      user-select: none;
+    }
+    .star-picker span.picked,
+    .star-picker span:hover,
+    .star-picker span:hover ~ span { color: var(--text-muted); }
+    .star-picker span.picked { color: var(--gold); }
+    .star-picker:hover span { color: var(--text-muted); }
+    .star-picker span:hover,
+    .star-picker span:hover ~ span.reverse-not { color: var(--gold); }
+    .star-picker-wrap { display: flex; flex-direction: row-reverse; justify-content: flex-end; gap: 4px; margin-bottom: 20px; }
+    .star-picker-wrap span {
+      font-size: 1.6rem; cursor: pointer; color: var(--text-muted);
+      transition: color .2s var(--ease), transform .2s var(--ease);
+      user-select: none;
+    }
+    .star-picker-wrap span.picked { color: var(--gold); }
+    .star-picker-wrap:hover span { color: var(--text-muted); }
+    .star-picker-wrap span:hover,
+    .star-picker-wrap span:hover ~ span { color: var(--gold); transform: scale(1.15); }
     .review-text {
       font-family: 'Space Grotesk', system-ui, sans-serif; font-style: italic;
       font-size: 1rem; color: var(--text-body); line-height: 1.75; margin-bottom: 24px;
@@ -795,6 +821,16 @@
     <div class="review-form reveal">
       <h3 data-i18n="form_title">Оставить отзыв</h3>
       <div class="form-row">
+        <label data-i18n="form_rating">Оценка</label>
+        <div class="star-picker-wrap" id="starPicker">
+          <span data-star="5">&#9733;</span>
+          <span data-star="4">&#9733;</span>
+          <span data-star="3">&#9733;</span>
+          <span data-star="2">&#9733;</span>
+          <span data-star="1">&#9733;</span>
+        </div>
+      </div>
+      <div class="form-row">
         <label for="reviewName" data-i18n="form_name">Ваше имя</label>
         <input type="text" id="reviewName" data-i18n-ph="form_name_ph" placeholder="Имя Фамилия">
       </div>
@@ -892,7 +928,7 @@
       role4: 'Финансовый консультант', exp4: 'Стаж 6 лет',
       rev_label: 'Отзывы', rev_title: 'Мнения клиентов',
       rev_sub: 'Доверие, которое говорит само за себя',
-      form_title: 'Оставить отзыв', form_name: 'Ваше имя', form_text: 'Ваш отзыв',
+      form_title: 'Оставить отзыв', form_rating: 'Оценка', form_name: 'Ваше имя', form_text: 'Ваш отзыв',
       form_name_ph: 'Имя Фамилия', form_text_ph: 'Расскажите о вашем опыте...',
       form_btn: 'Отправить отзыв', form_alert: 'Пожалуйста, заполните все поля.',
       con_label: 'Контакты', con_title: 'Свяжитесь с нами',
@@ -926,7 +962,7 @@
       role4: 'Financial Consultant', exp4: '6 years experience',
       rev_label: 'Reviews', rev_title: 'Client testimonials',
       rev_sub: 'Trust that speaks for itself',
-      form_title: 'Leave a review', form_name: 'Your name', form_text: 'Your review',
+      form_title: 'Leave a review', form_rating: 'Rating', form_name: 'Your name', form_text: 'Your review',
       form_name_ph: 'Full Name', form_text_ph: 'Tell us about your experience...',
       form_btn: 'Submit review', form_alert: 'Please fill in all fields.',
       con_label: 'Contacts', con_title: 'Get in touch',
@@ -981,18 +1017,37 @@
     observer.observe(el);
   });
 
+  // ===== Star picker =====
+  var selectedStars = 5;
+  document.querySelectorAll('#starPicker span').forEach(function(star) {
+    star.addEventListener('click', function() {
+      selectedStars = parseInt(this.getAttribute('data-star'));
+      document.querySelectorAll('#starPicker span').forEach(function(s) {
+        s.classList.toggle('picked', parseInt(s.getAttribute('data-star')) <= selectedStars);
+      });
+    });
+  });
+  // Init all 5 picked
+  document.querySelectorAll('#starPicker span').forEach(function(s) { s.classList.add('picked'); });
+
   // ===== Review submit =====
   function submitReview() {
     var name = document.getElementById('reviewName').value.trim();
     var text = document.getElementById('reviewText').value.trim();
     if (!name || !text) { alert(i18n[currentLang].form_alert); return; }
 
+    var stars = '';
+    for (var i = 0; i < 5; i++) {
+      if (i < selectedStars) stars += '&#9733;';
+      else stars += '<span class="star-empty">&#9734;</span>';
+    }
+
     var initials = name.split(' ').map(function(w) { return w[0]; }).join('').toUpperCase().slice(0, 2);
     var grid = document.querySelector('.reviews-grid');
     var div = document.createElement('div');
     div.className = 'review reveal visible';
     div.innerHTML =
-      '<div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>' +
+      '<div class="review-stars">' + stars + '</div>' +
       '<p class="review-text">' + text.replace(/</g, '&lt;') + '</p>' +
       '<div class="review-footer"><div class="review-avatar">' + initials.replace(/</g, '&lt;') + '</div>' +
       '<div><div class="review-author">' + name.replace(/</g, '&lt;') + '</div>' +
@@ -1001,6 +1056,8 @@
 
     document.getElementById('reviewName').value = '';
     document.getElementById('reviewText').value = '';
+    selectedStars = 5;
+    document.querySelectorAll('#starPicker span').forEach(function(s) { s.classList.add('picked'); });
   }
 </script>
 
