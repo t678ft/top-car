@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Top Car — Элитный Автосалон</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #09090b;
+      --surface: #111113;
+      --card: #18181b;
+      --card-hover: #1f1f23;
+      --gold: #c9a96e;
+      --gold-light: #e2c992;
+      --gold-dim: rgba(201,169,110,.12);
+      --gold-glow: rgba(201,169,110,.25);
+      --text: #f4f4f5;
+      --text-body: #a1a1aa;
+      --text-muted: #71717a;
+      --border: rgba(255,255,255,.06);
+      --border-light: rgba(255,255,255,.1);
+      --radius: 16px;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Sora', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3 { font-family: 'Space Grotesk', system-ui, sans-serif; }
+    a { color: var(--gold); text-decoration: none; transition: color .3s var(--ease); }
+    a:hover { color: var(--gold-light); }
+
+    .container { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+
+    /* GLOBAL BG TEXTURES */
+    body::before {
+      content: ''; position: fixed; inset: 0; z-index: -2;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(201,169,110,.04) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 90%, rgba(201,169,110,.03) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 40% at 50% 50%, rgba(30,30,35,.8) 0%, transparent 80%);
+      pointer-events: none;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(9,9,11,.7);
+      backdrop-filter: blur(20px) saturate(1.2);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .container {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 72px;
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; font-weight: 700; letter-spacing: .02em;
+    }
+    .logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      font-family: 'Sora', sans-serif;
+      color: var(--text-muted); font-size: .85rem; font-weight: 500;
+      letter-spacing: .04em; text-transform: uppercase;
+      transition: color .3s var(--ease);
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .burger { display: none; background: none; border: none; color: var(--text); cursor: pointer; }
+
+    /* HERO */
+    .hero {
+      min-height: 100dvh; display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 120px 24px 80px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0; z-index: -1;
+      background:
+        radial-gradient(ellipse 70% 50% at 50% 30%, rgba(201,169,110,.08) 0%, transparent 70%),
+        radial-gradient(circle at 30% 80%, rgba(201,169,110,.04) 0%, transparent 40%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 200px;
+      background: linear-gradient(to top, var(--bg) 0%, transparent 100%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 20px; border-radius: 40px;
+      background: var(--gold-dim); border: 1px solid rgba(201,169,110,.15);
+      font-size: .8rem; font-weight: 500; color: var(--gold); letter-spacing: .05em;
+      text-transform: uppercase; margin-bottom: 32px;
+    }
+    .hero-badge::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--gold); box-shadow: 0 0 8px var(--gold-glow);
+    }
+    .hero h1 {
+      font-size: clamp(2.8rem, 7vw, 5rem); font-weight: 700;
+      line-height: 1.08; letter-spacing: -.03em; margin-bottom: 24px;
+    }
+    .hero h1 em { font-style: italic; color: var(--gold); }
+    .hero p {
+      color: var(--text-body); font-size: 1.1rem; max-width: 500px;
+      margin: 0 auto 40px; line-height: 1.7;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 16px 36px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--gold), #b8944a);
+      color: #09090b; font-family: 'Sora', sans-serif;
+      font-weight: 700; font-size: .9rem; border: none; cursor: pointer;
+      letter-spacing: .03em; text-transform: uppercase;
+      transition: all .3s var(--ease);
+      box-shadow: 0 8px 32px rgba(201,169,110,.25), inset 0 1px 0 rgba(255,255,255,.2);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(201,169,110,.35), inset 0 1px 0 rgba(255,255,255,.2); color: #09090b; }
+    .btn-primary:active { transform: scale(.98); }
+    .btn-primary svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+    .stats {
+      display: flex; gap: 64px; justify-content: center; margin-top: 72px; flex-wrap: wrap;
+    }
+    .stat { position: relative; }
+    .stat + .stat::before {
+      content: ''; position: absolute; left: -32px; top: 10%; height: 80%;
+      width: 1px; background: var(--border-light);
+    }
+    .stat-num {
+      font-family: 'Sora', sans-serif;
+      font-size: 2.8rem; font-weight: 800; letter-spacing: -.04em;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label {
+      font-size: .75rem; color: var(--text-muted); letter-spacing: .08em;
+      text-transform: uppercase; margin-top: 4px;
+    }
+
+    /* SECTION COMMON */
+    section { padding: 100px 0; position: relative; }
+    .section-header { text-align: center; margin-bottom: 64px; }
+    .section-label {
+      display: inline-block; font-size: .75rem; font-weight: 600;
+      color: var(--gold); letter-spacing: .12em; text-transform: uppercase;
+      margin-bottom: 16px; font-family: 'Sora', sans-serif;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700;
+      letter-spacing: -.02em; margin-bottom: 16px;
+    }
+    .section-sub {
+      color: var(--text-body); max-width: 480px; margin: 0 auto;
+      font-size: .95rem; line-height: 1.7;
+    }
+
+    /* SECTION DIVIDERS */
+    .section-glow {
+      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 400px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-glow), transparent);
+    }
+
+    /* CATALOG */
+    .catalog-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    }
+    .car-card {
+      background: var(--card); border-radius: var(--radius); overflow: hidden;
+      border: 1px solid var(--border);
+      transition: all .4s var(--ease); position: relative;
+    }
+    .car-card::before {
+      content: ''; position: absolute; inset: 0; border-radius: var(--radius);
+      background: linear-gradient(180deg, transparent 50%, rgba(201,169,110,.03) 100%);
+      opacity: 0; transition: opacity .4s var(--ease); pointer-events: none; z-index: 1;
+    }
+    .car-card:hover { transform: translateY(-4px); border-color: rgba(201,169,110,.2); }
+    .car-card:hover::before { opacity: 1; }
+    .car-img {
+      width: 100%; height: 220px; object-fit: cover; display: block;
+      transition: transform .6s var(--ease);
+    }
+    .car-card:hover .car-img { transform: scale(1.03); }
+    .car-img-wrap { overflow: hidden; position: relative; }
+    .car-img-wrap::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
+      background: linear-gradient(to top, var(--card), transparent);
+      pointer-events: none;
+    }
+    .car-info { padding: 24px; position: relative; z-index: 2; }
+    .car-info h3 {
+      font-family: 'Sora', sans-serif; font-size: 1.05rem;
+      font-weight: 600; margin-bottom: 6px; letter-spacing: -.01em;
+    }
+    .car-meta { color: var(--text-muted); font-size: .8rem; margin-bottom: 16px; }
+    .car-bottom { display: flex; align-items: center; justify-content: space-between; }
+    .car-price {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.3rem; font-weight: 700; color: var(--gold);
+      letter-spacing: -.02em;
+    }
+    .car-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tag {
+      font-size: .7rem; padding: 4px 12px; border-radius: 6px;
+      background: var(--gold-dim); color: var(--gold);
+      font-weight: 500; letter-spacing: .02em; border: 1px solid rgba(201,169,110,.1);
+    }
+
+    /* FEATURES */
+    .features-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+    }
+    .feature {
+      background: var(--card); padding: 36px 28px; border-radius: var(--radius);
+      border: 1px solid var(--border); position: relative; overflow: hidden;
+      transition: all .4s var(--ease);
+    }
+    .feature::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0; transition: opacity .4s var(--ease);
+    }
+    .feature:hover { border-color: rgba(201,169,110,.15); transform: translateY(-2px); }
+    .feature:hover::before { opacity: .6; }
+    .feature-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: var(--gold-dim); border: 1px solid rgba(201,169,110,.15);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 24px;
+      box-shadow: 0 0 20px rgba(201,169,110,.15), 0 0 40px rgba(201,169,110,.05);
+      transition: box-shadow .4s var(--ease), transform .4s var(--ease);
+    }
+    .feature:hover .feature-icon {
+      box-shadow: 0 0 24px rgba(201,169,110,.3), 0 0 56px rgba(201,169,110,.12);
+      transform: translateY(-2px);
+    }
+    .feature-icon svg { width: 22px; height: 22px; stroke: var(--gold); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .feature h3 {
+      font-family: 'Sora', sans-serif;
+      font-size: .95rem; margin-bottom: 10px; font-weight: 600;
+    }
+    .feature p { font-size: .85rem; color: var(--text-body); line-height: 1.65; }
+
+    /* TEAM */
+    .team-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+    }
+    .member {
+      background: var(--card); border-radius: var(--radius); overflow: hidden;
+      border: 1px solid var(--border); text-align: center;
+      transition: all .4s var(--ease);
+    }
+    .member:hover { border-color: rgba(201,169,110,.15); transform: translateY(-4px); }
+    .member-img-wrap { overflow: hidden; position: relative; }
+    .member-img-wrap::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 80px;
+      background: linear-gradient(to top, var(--card), transparent);
+    }
+    .member img {
+      width: 100%; height: 300px; object-fit: cover; display: block;
+      filter: grayscale(.2); transition: all .5s var(--ease);
+    }
+    .member:hover img { filter: grayscale(0); transform: scale(1.03); }
+    .member-info { padding: 24px 16px; position: relative; }
+    .member-info h3 { font-family: 'Sora', sans-serif; font-size: .95rem; font-weight: 600; margin-bottom: 4px; }
+    .member-info .role { color: var(--gold); font-size: .8rem; font-weight: 500; margin-bottom: 4px; }
+    .member-info .exp { color: var(--text-muted); font-size: .75rem; }
+
+    /* REVIEWS */
+    .reviews-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    }
+    .review {
+      background: var(--card); padding: 36px; border-radius: var(--radius);
+      border: 1px solid var(--border); position: relative;
+      transition: all .4s var(--ease);
+    }
+    .review:hover { border-color: rgba(201,169,110,.15); }
+    .review-stars { color: var(--gold); font-size: .9rem; margin-bottom: 20px; letter-spacing: 3px; }
+    .review-text {
+      font-family: 'Space Grotesk', system-ui, sans-serif; font-style: italic;
+      font-size: 1rem; color: var(--text-body); line-height: 1.75; margin-bottom: 24px;
+    }
+    .review-footer { display: flex; align-items: center; gap: 12px; }
+    .review-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--gold-dim); border: 1px solid rgba(201,169,110,.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .85rem; font-weight: 700; color: var(--gold);
+      box-shadow: 0 0 16px rgba(201,169,110,.12);
+    }
+    .review-author { font-weight: 600; font-size: .85rem; }
+    .review-date { font-size: .75rem; color: var(--text-muted); margin-top: 1px; }
+
+    /* REVIEW FORM */
+    .review-form {
+      max-width: 580px; margin: 64px auto 0;
+      background: var(--card); padding: 44px; border-radius: var(--radius);
+      border: 1px solid var(--border); position: relative; overflow: hidden;
+    }
+    .review-form::before {
+      content: ''; position: absolute; top: 0; left: 20%; right: 20%; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,169,110,.3), transparent);
+    }
+    .review-form h3 { margin-bottom: 28px; text-align: center; font-size: 1.3rem; }
+    .form-row { margin-bottom: 20px; }
+    .form-row label {
+      display: block; font-size: .8rem; color: var(--text-muted);
+      margin-bottom: 8px; font-weight: 500; letter-spacing: .03em; text-transform: uppercase;
+    }
+    .form-row input, .form-row textarea {
+      width: 100%; padding: 14px 18px; border-radius: 10px;
+      border: 1px solid var(--border); background: var(--surface);
+      color: var(--text); font-size: .9rem; font-family: inherit; resize: vertical;
+      transition: border-color .3s var(--ease), box-shadow .3s var(--ease);
+    }
+    .form-row input:focus, .form-row textarea:focus {
+      outline: none; border-color: rgba(201,169,110,.4);
+      box-shadow: 0 0 0 3px rgba(201,169,110,.08);
+    }
+    .form-row textarea { min-height: 110px; }
+
+    /* CONTACTS */
+    .contacts-wrap { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; }
+    .contact-card {
+      background: var(--card); padding: 36px 44px; border-radius: var(--radius);
+      border: 1px solid var(--border); text-align: center; flex: 1; max-width: 340px;
+      transition: all .4s var(--ease); position: relative; overflow: hidden;
+    }
+    .contact-card::before {
+      content: ''; position: absolute; top: 0; left: 30%; right: 30%; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,169,110,.2), transparent);
+      opacity: 0; transition: opacity .4s;
+    }
+    .contact-card:hover { border-color: rgba(201,169,110,.15); transform: translateY(-2px); }
+    .contact-card:hover::before { opacity: 1; }
+    .contact-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      background: var(--gold-dim); border: 1px solid rgba(201,169,110,.15);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+      box-shadow: 0 0 20px rgba(201,169,110,.15), 0 0 40px rgba(201,169,110,.05);
+      transition: box-shadow .4s var(--ease), transform .4s var(--ease);
+    }
+    .contact-card:hover .contact-icon {
+      box-shadow: 0 0 24px rgba(201,169,110,.35), 0 0 56px rgba(201,169,110,.15);
+      transform: translateY(-2px);
+    }
+    .contact-icon svg { width: 22px; height: 22px; stroke: var(--gold); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .contact-card h3 {
+      font-family: 'Sora', sans-serif; font-size: .75rem; margin-bottom: 10px;
+      color: var(--text-muted); text-transform: uppercase; letter-spacing: .08em; font-weight: 500;
+    }
+    .contact-card a {
+      font-family: 'Sora', sans-serif; font-size: 1.05rem; font-weight: 600; color: var(--text);
+    }
+    .contact-card a:hover { color: var(--gold); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border); padding: 40px 0;
+      text-align: center; color: var(--text-muted); font-size: .8rem;
+    }
+
+    /* SCROLL ANIMATIONS */
+    .reveal {
+      opacity: 0; transform: translateY(16px);
+      transition: opacity .7s var(--ease), transform .7s var(--ease);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* MOBILE */
+    @media (max-width: 1024px) {
+      .catalog-grid, .reviews-grid { grid-template-columns: repeat(2, 1fr); }
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .team-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex; flex-direction: column; position: absolute;
+        top: 72px; left: 0; right: 0; background: rgba(9,9,11,.95);
+        backdrop-filter: blur(20px);
+        padding: 24px; gap: 20px; border-bottom: 1px solid var(--border);
+      }
+      .burger { display: block; }
+      .catalog-grid, .features-grid, .team-grid, .reviews-grid { grid-template-columns: 1fr; }
+      .stats { gap: 32px; }
+      .stat + .stat::before { display: none; }
+      section { padding: 72px 0; }
+      .hero { padding: 100px 16px 60px; }
+      .contacts-wrap { flex-direction: column; align-items: center; }
+      .contact-card { max-width: 100%; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="container">
+    <div class="logo">Top <span>Car</span></div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#catalog">Каталог</a></li>
+      <li><a href="#why">Преимущества</a></li>
+      <li><a href="#team">Команда</a></li>
+      <li><a href="#reviews">Отзывы</a></li>
+      <li><a href="#contacts">Контакты</a></li>
+    </ul>
+    <button class="burger" id="burger" aria-label="Меню">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <div class="hero-badge reveal">Элитный автосалон</div>
+    <h1 class="reveal">Автомобили<br><em>премиум-класса</em></h1>
+    <p class="reveal">Эксклюзивные предложения от ведущих мировых марок. Безупречный сервис и индивидуальный подход к каждому клиенту.</p>
+    <a href="#catalog" class="btn-primary reveal">
+      Каталог автомобилей
+      <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+    <div class="stats reveal">
+      <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Продано авто</div></div>
+      <div class="stat"><div class="stat-num">5+</div><div class="stat-label">Лет на рынке</div></div>
+      <div class="stat"><div class="stat-num">98%</div><div class="stat-label">Довольных клиентов</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CATALOG -->
+<section id="catalog">
+  <div class="section-glow"></div>
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-label">Каталог</div>
+      <h2 class="section-title">Автомобили в наличии</h2>
+      <p class="section-sub">Каждый автомобиль прошёл полную проверку и готов к выдаче</p>
+    </div>
+    <div class="catalog-grid">
+
+      <div class="car-card reveal">
+        <div class="car-img-wrap">
+          <img class="car-img" src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600&h=440&fit=crop" alt="BMW M5 Competition" loading="lazy">
+        </div>
+        <div class="car-info">
+          <h3>BMW M5 Competition</h3>
+          <div class="car-meta">2024 &middot; 4.4L V8 Twin-Turbo &middot; 625 л.с.</div>
+          <div class="car-bottom">
+            <div class="car-price">&euro; 134 900</div>
+            <div class="car-tags"><span class="tag">Седан</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="car-card reveal">
+        <div class="car-img-wrap">
+          <img class="car-img" src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&h=440&fit=crop" alt="Mercedes-AMG GT 63 S" loading="lazy">
+        </div>
+        <div class="car-info">
+          <h3>Mercedes-AMG GT 63 S</h3>
+          <div class="car-meta">2024 &middot; 4.0L V8 Biturbo &middot; 639 л.с.</div>
+          <div class="car-bottom">
+            <div class="car-price">&euro; 178 500</div>
+            <div class="car-tags"><span class="tag">Купе</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="car-card reveal">
+        <div class="car-img-wrap">
+          <img class="car-img" src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=600&h=440&fit=crop" alt="Audi RS Q8" loading="lazy">
+        </div>
+        <div class="car-info">
+          <h3>Audi RS Q8</h3>
+          <div class="car-meta">2024 &middot; 4.0L V8 TFSI &middot; 600 л.с.</div>
+          <div class="car-bottom">
+            <div class="car-price">&euro; 142 700</div>
+            <div class="car-tags"><span class="tag">Внедорожник</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="car-card reveal">
+        <div class="car-img-wrap">
+          <img class="car-img" src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=600&h=440&fit=crop" alt="Porsche 911 Turbo S" loading="lazy">
+        </div>
+        <div class="car-info">
+          <h3>Porsche 911 Turbo S</h3>
+          <div class="car-meta">2024 &middot; 3.8L Boxer-6 &middot; 650 л.с.</div>
+          <div class="car-bottom">
+            <div class="car-price">&euro; 249 000</div>
+            <div class="car-tags"><span class="tag">Спорт</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="car-card reveal">
+        <div class="car-img-wrap">
+          <img class="car-img" src="https://images.unsplash.com/photo-1542362567-b07e54358753?w=600&h=440&fit=crop" alt="Range Rover Autobiography" loading="lazy">
+        </div>
+        <div class="car-info">
+          <h3>Range Rover Autobiography</h3>
+          <div class="car-meta">2024 &middot; 4.4L V8 &middot; 530 л.с.</div>
+          <div class="car-bottom">
+            <div class="car-price">&euro; 195 000</div>
+            <div class="car-tags"><span class="tag">Внедорожник</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="car-card reveal">
+        <div class="car-img-wrap">
+          <img class="car-img" src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&h=440&fit=crop" alt="Chevrolet Corvette Z06" loading="lazy">
+        </div>
+        <div class="car-info">
+          <h3>Chevrolet Corvette Z06</h3>
+          <div class="car-meta">2024 &middot; 5.5L V8 Flat-Plane &middot; 670 л.с.</div>
+          <div class="car-bottom">
+            <div class="car-price">&euro; 128 900</div>
+            <div class="car-tags"><span class="tag">Купе</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="car-card reveal">
+        <div class="car-img-wrap">
+          <img class="car-img" src="https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=600&h=440&fit=crop" alt="Tesla Model S Plaid" loading="lazy">
+        </div>
+        <div class="car-info">
+          <h3>Tesla Model S Plaid</h3>
+          <div class="car-meta">2024 &middot; Tri-Motor AWD &middot; 1020 л.с.</div>
+          <div class="car-bottom">
+            <div class="car-price">&euro; 112 900</div>
+            <div class="car-tags"><span class="tag">Электро</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="car-card reveal">
+        <div class="car-img-wrap">
+          <img class="car-img" src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=600&h=440&fit=crop" alt="Lamborghini Urus" loading="lazy">
+        </div>
+        <div class="car-info">
+          <h3>Lamborghini Urus</h3>
+          <div class="car-meta">2024 &middot; 4.0L V8 Twin-Turbo &middot; 666 л.с.</div>
+          <div class="car-bottom">
+            <div class="car-price">&euro; 265 000</div>
+            <div class="car-tags"><span class="tag">Внедорожник</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="car-card reveal">
+        <div class="car-img-wrap">
+          <img class="car-img" src="https://images.unsplash.com/photo-1619682817481-e994891cd1f5?w=600&h=440&fit=crop" alt="Bentley Continental GT" loading="lazy">
+        </div>
+        <div class="car-info">
+          <h3>Bentley Continental GT</h3>
+          <div class="car-meta">2024 &middot; 6.0L W12 &middot; 659 л.с.</div>
+          <div class="car-bottom">
+            <div class="car-price">&euro; 218 000</div>
+            <div class="car-tags"><span class="tag">Гран-туризмо</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="why">
+  <div class="section-glow"></div>
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-label">Преимущества</div>
+      <h2 class="section-title">Почему выбирают нас</h2>
+      <p class="section-sub">Безупречная репутация, прозрачные условия и индивидуальный подход</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature reveal">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+        </div>
+        <h3>Проверка истории</h3>
+        <p>Юридическая чистота и полная диагностика каждого автомобиля на стенде перед продажей</p>
+      </div>
+      <div class="feature reveal">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>Гарантия до 3 лет</h3>
+        <p>Расширенная гарантия и сервисная поддержка на весь период владения автомобилем</p>
+      </div>
+      <div class="feature reveal">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        </div>
+        <h3>Доставка по Европе</h3>
+        <p>Персональная логистика — доставим автомобиль в любую точку Европы за 5–10 дней</p>
+      </div>
+      <div class="feature reveal">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        </div>
+        <h3>Без скрытых комиссий</h3>
+        <p>Цена в каталоге — финальная цена. Никаких доплат, наценок или дополнительных сборов</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="section-glow"></div>
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-label">Команда</div>
+      <h2 class="section-title">Наши специалисты</h2>
+      <p class="section-sub">Профессионалы с многолетним опытом в сегменте люксовых автомобилей</p>
+    </div>
+    <div class="team-grid">
+      <div class="member reveal">
+        <div class="member-img-wrap">
+          <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=540&fit=crop" alt="Алексей Морозов" loading="lazy">
+        </div>
+        <div class="member-info">
+          <h3>Алексей Морозов</h3>
+          <div class="role">Генеральный директор</div>
+          <div class="exp">Стаж 12 лет</div>
+        </div>
+      </div>
+      <div class="member reveal">
+        <div class="member-img-wrap">
+          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=540&fit=crop" alt="Екатерина Волкова" loading="lazy">
+        </div>
+        <div class="member-info">
+          <h3>Екатерина Волкова</h3>
+          <div class="role">Менеджер по продажам</div>
+          <div class="exp">Стаж 7 лет</div>
+        </div>
+      </div>
+      <div class="member reveal">
+        <div class="member-img-wrap">
+          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=540&fit=crop" alt="Дмитрий Соколов" loading="lazy">
+        </div>
+        <div class="member-info">
+          <h3>Дмитрий Соколов</h3>
+          <div class="role">Технический эксперт</div>
+          <div class="exp">Стаж 9 лет</div>
+        </div>
+      </div>
+      <div class="member reveal">
+        <div class="member-img-wrap">
+          <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=540&fit=crop" alt="Анна Кузнецова" loading="lazy">
+        </div>
+        <div class="member-info">
+          <h3>Анна Кузнецова</h3>
+          <div class="role">Финансовый консультант</div>
+          <div class="exp">Стаж 6 лет</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="section-glow"></div>
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-label">Отзывы</div>
+      <h2 class="section-title">Мнения клиентов</h2>
+      <p class="section-sub">Доверие, которое говорит само за себя</p>
+    </div>
+    <div class="reviews-grid">
+      <div class="review reveal">
+        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">Приобрёл Porsche 911 Turbo S — процесс от выбора до получения ключей занял четыре дня. Безупречный сервис и внимание к деталям.</p>
+        <div class="review-footer">
+          <div class="review-avatar">ИП</div>
+          <div><div class="review-author">Игорь Петров</div><div class="review-date">Март 2026</div></div>
+        </div>
+      </div>
+      <div class="review reveal">
+        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">Екатерина помогла подобрать идеальный Range Rover точно под мои требования. Приятно работать с командой, которая слышит клиента.</p>
+        <div class="review-footer">
+          <div class="review-avatar">МИ</div>
+          <div><div class="review-author">Мария Иванова</div><div class="review-date">Февраль 2026</div></div>
+        </div>
+      </div>
+      <div class="review reveal">
+        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
+        <p class="review-text">Шикарный выбор премиальных автомобилей и полная прозрачность на каждом этапе сделки. Рекомендую всем, кто ценит качество.</p>
+        <div class="review-footer">
+          <div class="review-avatar">АС</div>
+          <div><div class="review-author">Андрей Смирнов</div><div class="review-date">Январь 2026</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REVIEW FORM -->
+    <div class="review-form reveal">
+      <h3>Оставить отзыв</h3>
+      <div class="form-row">
+        <label for="reviewName">Ваше имя</label>
+        <input type="text" id="reviewName" placeholder="Имя Фамилия">
+      </div>
+      <div class="form-row">
+        <label for="reviewText">Ваш отзыв</label>
+        <textarea id="reviewText" placeholder="Расскажите о вашем опыте..."></textarea>
+      </div>
+      <button class="btn-primary" style="width:100%;justify-content:center" onclick="submitReview()">Отправить отзыв</button>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTS -->
+<section id="contacts">
+  <div class="section-glow"></div>
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-label">Контакты</div>
+      <h2 class="section-title">Свяжитесь с нами</h2>
+      <p class="section-sub">Мы на связи — выберите удобный способ</p>
+    </div>
+    <div class="contacts-wrap reveal">
+      <div class="contact-card">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <h3>Email</h3>
+        <a href="mailto:emiladiev22@gmail.com">emiladiev22@gmail.com</a>
+      </div>
+      <div class="contact-card">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        </div>
+        <h3>Телефон</h3>
+        <a href="tel:+491234567890">+49 123 456 7890</a>
+      </div>
+      <div class="contact-card">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24"><path d="M21.198 2.433a2.242 2.242 0 00-1.022.215l-8.609 3.33c-2.068.8-4.133 1.598-5.724 2.21a405.15 405.15 0 01-2.849 1.09c-.42.147-.99.332-1.473.901-.728.856-.2 1.934.25 2.414.353.376.79.53 1.066.614l3.1 1.066c.197.652.936 3.108 1.13 3.772.12.412.258.786.5 1.1.122.16.27.296.44.4.078.046.16.082.246.106l-.006.014.066.032c.055.023.108.042.165.058a1.473 1.473 0 001.578-.456l1.87-2.072 3.632 2.757.043.03a2.1 2.1 0 001.134.323 2.137 2.137 0 002.07-1.64l3.037-14.31c.12-.502.165-1.326-.397-1.89a1.607 1.607 0 00-.847-.388zm-.12 1.502l-3.04 14.31c-.073.344-.28.588-.614.588-.077 0-.263-.02-.42-.107l-4.35-3.302-.025-.02-2.292-1.74 9.428-8.39c.18-.16.36-.387.036-.387-.088 0-.194.052-.274.103L7.677 13.56l-.007.005-3.22-1.107c-.095-.033-.09-.048-.09-.048s.006-.022.086-.055l2.832-1.084c1.592-.613 3.66-1.412 5.727-2.212l8.602-3.327c.078-.03.16-.048.193-.048z"/></svg>
+        </div>
+        <h3>Telegram</h3>
+        <a href="https://t.me/wowisoa" target="_blank" rel="noopener">@wowisoa</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <p>&copy; 2026 Top Car. Все права защищены.</p>
+  </div>
+</footer>
+
+<script>
+  // Mobile menu
+  document.getElementById('burger').addEventListener('click', function() {
+    document.getElementById('navLinks').classList.toggle('open');
+  });
+  document.querySelectorAll('.nav-links a').forEach(function(a) {
+    a.addEventListener('click', function() {
+      document.getElementById('navLinks').classList.remove('open');
+    });
+  });
+
+  // Scroll reveal
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(function(el, i) {
+    var siblings = el.parentElement ? Array.from(el.parentElement.children).filter(function(c) { return c.classList.contains('reveal'); }) : [];
+    var index = siblings.indexOf(el);
+    if (index > 0) el.style.transitionDelay = index * 100 + 'ms';
+    observer.observe(el);
+  });
+
+  // Review submit
+  function submitReview() {
+    var name = document.getElementById('reviewName').value.trim();
+    var text = document.getElementById('reviewText').value.trim();
+    if (!name || !text) { alert('Пожалуйста, заполните все поля.'); return; }
+
+    var initials = name.split(' ').map(function(w) { return w[0]; }).join('').toUpperCase().slice(0, 2);
+    var grid = document.querySelector('.reviews-grid');
+    var div = document.createElement('div');
+    div.className = 'review reveal visible';
+    div.innerHTML =
+      '<div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>' +
+      '<p class="review-text">' + text.replace(/</g, '&lt;') + '</p>' +
+      '<div class="review-footer"><div class="review-avatar">' + initials.replace(/</g, '&lt;') + '</div>' +
+      '<div><div class="review-author">' + name.replace(/</g, '&lt;') + '</div>' +
+      '<div class="review-date">Апрель 2026</div></div></div>';
+    grid.appendChild(div);
+
+    document.getElementById('reviewName').value = '';
+    document.getElementById('reviewText').value = '';
+  }
+</script>
+
+</body>
+</html>
