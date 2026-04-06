@@ -39,7 +39,7 @@
       overflow-x: hidden;
     }
 
-    h1, h2, h3 { font-family: 'Space Grotesk', system-ui, sans-serif; }
+    h1, h2, h3 { font-family: 'Space Grotesk', system-ui, sans-serif; text-transform: uppercase; }
     a { color: var(--gold); text-decoration: none; transition: color .3s var(--ease); }
     a:hover { color: var(--gold-light); }
 
@@ -117,11 +117,12 @@
     .hero h1 em { font-style: italic; color: var(--gold); }
     .hero p {
       color: var(--text-body); font-size: 1.1rem; max-width: 500px;
-      margin: 0 auto 40px; line-height: 1.7;
+      margin: 0 auto 40px; line-height: 1.7; text-transform: uppercase;
+      letter-spacing: .04em;
     }
     .btn-primary {
       display: inline-flex; align-items: center; gap: 10px;
-      padding: 16px 36px; border-radius: 8px;
+      padding: 16px 36px; border-radius: 8px; text-transform: uppercase;
       background: linear-gradient(135deg, var(--gold), #b8944a);
       color: #09090b; font-family: 'Sora', sans-serif;
       font-weight: 700; font-size: .9rem; border: none; cursor: pointer;
@@ -167,7 +168,8 @@
     }
     .section-sub {
       color: var(--text-body); max-width: 480px; margin: 0 auto;
-      font-size: .95rem; line-height: 1.7;
+      font-size: .95rem; line-height: 1.7; text-transform: uppercase;
+      letter-spacing: .03em;
     }
 
     /* SECTION DIVIDERS */
@@ -228,9 +230,10 @@
     .car-info { padding: 24px; position: relative; z-index: 2; }
     .car-info h3 {
       font-family: 'Sora', sans-serif; font-size: 1.05rem;
-      font-weight: 600; margin-bottom: 6px; letter-spacing: -.01em;
+      font-weight: 600; margin-bottom: 6px; letter-spacing: .02em;
+      text-transform: uppercase;
     }
-    .car-meta { color: var(--text-muted); font-size: .8rem; margin-bottom: 16px; }
+    .car-meta { color: var(--text-muted); font-size: .8rem; margin-bottom: 16px; text-transform: uppercase; letter-spacing: .03em; }
     .car-bottom { display: flex; align-items: center; justify-content: space-between; }
     .car-price {
       font-family: 'Sora', sans-serif;
@@ -277,7 +280,7 @@
       font-family: 'Sora', sans-serif;
       font-size: .95rem; margin-bottom: 10px; font-weight: 600;
     }
-    .feature p { font-size: .85rem; color: var(--text-body); line-height: 1.65; }
+    .feature p { font-size: .85rem; color: var(--text-body); line-height: 1.65; text-transform: uppercase; letter-spacing: .02em; }
 
     /* TEAM */
     .team-grid {
@@ -318,6 +321,7 @@
     .review-text {
       font-family: 'Space Grotesk', system-ui, sans-serif; font-style: italic;
       font-size: 1rem; color: var(--text-body); line-height: 1.75; margin-bottom: 24px;
+      text-transform: uppercase; letter-spacing: .02em;
     }
     .review-footer { display: flex; align-items: center; gap: 12px; }
     .review-avatar {
@@ -327,7 +331,7 @@
       font-size: .85rem; font-weight: 700; color: var(--gold);
       box-shadow: 0 0 16px rgba(201,169,110,.12);
     }
-    .review-author { font-weight: 600; font-size: .85rem; }
+    .review-author { font-weight: 600; font-size: .85rem; text-transform: uppercase; letter-spacing: .03em; }
     .review-date { font-size: .75rem; color: var(--text-muted); margin-top: 1px; }
 
     /* REVIEW FORM */
@@ -391,6 +395,7 @@
     }
     .contact-card a {
       font-family: 'Sora', sans-serif; font-size: 1.05rem; font-weight: 600; color: var(--text);
+      text-transform: uppercase; letter-spacing: .02em;
     }
     .contact-card a:hover { color: var(--gold); }
 
