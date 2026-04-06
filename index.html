@@ -1027,33 +1027,67 @@
       });
     });
   });
-  // Init all 5 picked
   document.querySelectorAll('#starPicker span').forEach(function(s) { s.classList.add('picked'); });
 
-  // ===== Review submit =====
+  // ===== Reviews — localStorage persistence =====
+  function getStoredReviews() {
+    try { return JSON.parse(localStorage.getItem('topcar_reviews') || '[]'); }
+    catch(e) { return []; }
+  }
+
+  function saveReviews(reviews) {
+    localStorage.setItem('topcar_reviews', JSON.stringify(reviews));
+  }
+
+  function buildStarsHTML(count) {
+    var s = '';
+    for (var i = 0; i < 5; i++) {
+      if (i < count) s += '\u2605';
+      else s += '<span class="star-empty">\u2606</span>';
+    }
+    return s;
+  }
+
+  function renderReview(r) {
+    var grid = document.querySelector('.reviews-grid');
+    var div = document.createElement('div');
+    div.className = 'review reveal visible';
+    var safe = function(t) { return t.replace(/</g, '&lt;'); };
+    div.innerHTML =
+      '<div class="review-stars">' + buildStarsHTML(r.stars) + '</div>' +
+      '<p class="review-text">' + safe(r.text) + '</p>' +
+      '<div class="review-footer"><div class="review-avatar">' + safe(r.initials) + '</div>' +
+      '<div><div class="review-author">' + safe(r.name) + '</div>' +
+      '<div class="review-date">' + safe(r.date) + '</div></div></div>';
+    grid.appendChild(div);
+  }
+
+  // Load saved reviews on page load
+  getStoredReviews().forEach(renderReview);
+
   function submitReview() {
     var name = document.getElementById('reviewName').value.trim();
     var text = document.getElementById('reviewText').value.trim();
     if (!name || !text) { alert(i18n[currentLang].form_alert); return; }
 
-    var stars = '';
-    for (var i = 0; i < 5; i++) {
-      if (i < selectedStars) stars += '&#9733;';
-      else stars += '<span class="star-empty">&#9734;</span>';
-    }
-
     var initials = name.split(' ').map(function(w) { return w[0]; }).join('').toUpperCase().slice(0, 2);
-    var grid = document.querySelector('.reviews-grid');
-    var div = document.createElement('div');
-    div.className = 'review reveal visible';
-    div.innerHTML =
-      '<div class="review-stars">' + stars + '</div>' +
-      '<p class="review-text">' + text.replace(/</g, '&lt;') + '</p>' +
-      '<div class="review-footer"><div class="review-avatar">' + initials.replace(/</g, '&lt;') + '</div>' +
-      '<div><div class="review-author">' + name.replace(/</g, '&lt;') + '</div>' +
-      '<div class="review-date">2026</div></div></div>';
-    grid.appendChild(div);
+    var review = {
+      name: name,
+      text: text,
+      stars: selectedStars,
+      initials: initials,
+      date: new Date().toLocaleDateString(currentLang === 'ru' ? 'ru-RU' : 'en-US', { month: 'long', year: 'numeric' })
+    };
 
+    // Save to localStorage
+    var reviews = getStoredReviews();
+    reviews.push(review);
+    saveReviews(reviews);
+
+    // Render on page
+    renderReview(review);
+
+    // Reset form
     document.getElementById('reviewName').value = '';
     document.getElementById('reviewText').value = '';
     selectedStars = 5;
