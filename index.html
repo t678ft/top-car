@@ -242,6 +242,26 @@
       filter: blur(8px); z-index: 0; pointer-events: none;
     }
 
+    /* HOVER OVERLAY — description on hover */
+    .car-overlay {
+      position: absolute; inset: 0; z-index: 5;
+      background: rgba(9,9,11,.88);
+      backdrop-filter: blur(6px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 28px; text-align: center;
+      opacity: 0; transition: opacity .4s var(--ease);
+      pointer-events: none; border-radius: var(--radius);
+    }
+    .car-card:hover .car-overlay { opacity: 1; pointer-events: auto; }
+    .car-overlay p {
+      color: var(--text); font-size: .85rem; line-height: 1.7;
+      text-transform: none; letter-spacing: .01em; max-width: 280px;
+    }
+    .car-overlay-label {
+      font-size: .65rem; font-weight: 600; color: var(--gold);
+      text-transform: uppercase; letter-spacing: .1em; margin-bottom: 12px;
+    }
+
     .car-info { padding: 24px; position: relative; z-index: 2; }
     .car-info h3 {
       font-family: 'Sora', sans-serif; font-size: 1.05rem;
@@ -544,8 +564,9 @@
     </div>
     <div class="catalog-grid">
 
-      <!-- BMW 530i — user photo -->
+      <!-- BMW 530i -->
       <div class="car-card reveal">
+        <div class="car-overlay"><div><div class="car-overlay-label" data-i18n="overlay_label">О модели</div><p>BMW 530i M Sport — элегантный бизнес-седан с 2.0L турбомотором на 245 л.с. Разгон до 100 км/ч за 6.1 сек. Полный пакет M Sport, адаптивная подвеска, аудиосистема Harman Kardon.</p></div></div>
         <div class="car-img-wrap">
           <img class="car-img" src="images/bmw-530i.jpg" alt="BMW 530i M Sport" loading="lazy">
           <div class="car-spotlight"></div>
@@ -560,8 +581,9 @@
         </div>
       </div>
 
-      <!-- BMW X5 — user photo -->
+      <!-- BMW X5 -->
       <div class="car-card reveal">
+        <div class="car-overlay"><div><div class="car-overlay-label" data-i18n="overlay_label">О модели</div><p>BMW X5 xDrive40i — мощный премиум-внедорожник с 3.0L рядной шестёркой на 380 л.с. Полный привод xDrive, пневмоподвеска, панорамная крыша и система ночного видения.</p></div></div>
         <div class="car-img-wrap">
           <img class="car-img" src="images/bmw-x5.jpg" alt="BMW X5 xDrive40i" loading="lazy">
           <div class="car-spotlight"></div>
@@ -577,6 +599,7 @@
       </div>
 
       <div class="car-card reveal">
+        <div class="car-overlay"><div><div class="car-overlay-label" data-i18n="overlay_label">О модели</div><p>Audi RS Q8 — суперкар в кузове внедорожника. 4.0L V8 TFSI на 600 л.с. Разгон до 100 за 3.8 сек. Карбон-керамические тормоза, матричные LED-фары, адаптивная пневмоподвеска.</p></div></div>
         <div class="car-img-wrap">
           <img class="car-img" src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=600&h=440&fit=crop" alt="Audi RS Q8" loading="lazy">
           <div class="car-spotlight"></div>
@@ -592,6 +615,7 @@
       </div>
 
       <div class="car-card reveal">
+        <div class="car-overlay"><div><div class="car-overlay-label" data-i18n="overlay_label">О модели</div><p>Ford Mustang GT — легендарный американский маслкар. 5.0L V8 Coyote на 480 л.с. Задний привод, 10-ступенчатый автомат, спортивный выхлоп, режимы вождения Track и Drag.</p></div></div>
         <div class="car-img-wrap">
           <img class="car-img" src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=600&h=440&fit=crop" alt="Ford Mustang GT" loading="lazy">
           <div class="car-spotlight"></div>
@@ -607,6 +631,7 @@
       </div>
 
       <div class="car-card reveal">
+        <div class="car-overlay"><div><div class="car-overlay-label" data-i18n="overlay_label">О модели</div><p>McLaren 720S — британский суперкар с карбоновым монококом. 4.0L V8 Twin-Turbo на 710 л.с. Разгон до 100 за 2.9 сек. Диэдральные двери, гидравлическая подвеска Proactive Chassis Control II.</p></div></div>
         <div class="car-img-wrap">
           <img class="car-img" src="https://images.unsplash.com/photo-1542362567-b07e54358753?w=600&h=440&fit=crop" alt="McLaren 720S" loading="lazy">
           <div class="car-spotlight"></div>
@@ -622,6 +647,7 @@
       </div>
 
       <div class="car-card reveal">
+        <div class="car-overlay"><div><div class="car-overlay-label" data-i18n="overlay_label">О модели</div><p>Chevrolet Corvette Z06 — среднемоторный суперкар. 5.5L V8 Flat-Plane Crank на 670 л.с. Самый мощный атмосферный V8 в истории. Карбоновые аэро-элементы, магнитная подвеска MagneRide.</p></div></div>
         <div class="car-img-wrap">
           <img class="car-img" src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&h=440&fit=crop" alt="Chevrolet Corvette Z06" loading="lazy">
           <div class="car-spotlight"></div>
@@ -637,6 +663,7 @@
       </div>
 
       <div class="car-card reveal">
+        <div class="car-overlay"><div><div class="car-overlay-label" data-i18n="overlay_label">О модели</div><p>Mercedes-AMG GT 63 S — четырёхдверное купе с 4.0L V8 Biturbo на 639 л.с. Полный привод 4MATIC+, активная аэродинамика, 9-ступенчатый автомат AMG Speedshift MCT.</p></div></div>
         <div class="car-img-wrap">
           <img class="car-img" src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&h=440&fit=crop" alt="Mercedes-AMG GT 63 S" loading="lazy">
           <div class="car-spotlight"></div>
@@ -652,6 +679,7 @@
       </div>
 
       <div class="car-card reveal">
+        <div class="car-overlay"><div><div class="car-overlay-label" data-i18n="overlay_label">О модели</div><p>BMW M5 Competition — спортивный седан с 4.4L V8 Twin-Turbo на 625 л.с. Полный привод M xDrive с возможностью заднего привода. Разгон до 100 за 3.3 сек. Карбоновая крыша.</p></div></div>
         <div class="car-img-wrap">
           <img class="car-img" src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600&h=440&fit=crop" alt="BMW M5 Competition" loading="lazy">
           <div class="car-spotlight"></div>
@@ -667,6 +695,7 @@
       </div>
 
       <div class="car-card reveal">
+        <div class="car-overlay"><div><div class="car-overlay-label" data-i18n="overlay_label">О модели</div><p>Toyota Camry Hybrid — надёжный бизнес-седан с гибридной установкой 2.5L на 225 л.с. Расход всего 4.5 л/100 км. Toyota Safety Sense, JBL аудиосистема, беспроводная зарядка.</p></div></div>
         <div class="car-img-wrap">
           <img class="car-img" src="https://images.unsplash.com/photo-1619682817481-e994891cd1f5?w=600&h=440&fit=crop" alt="Toyota Camry" loading="lazy">
           <div class="car-spotlight"></div>
@@ -912,6 +941,7 @@
       hero_sub: 'Эксклюзивные предложения от ведущих мировых марок. Безупречный сервис и индивидуальный подход к каждому клиенту.',
       hero_btn: 'Каталог автомобилей <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>',
       stat_sold: 'Продано авто', stat_years: 'Лет на рынке', stat_happy: 'Довольных клиентов',
+      overlay_label: 'О модели',
       cat_label: 'Каталог', cat_title: 'Автомобили в наличии',
       cat_sub: 'Каждый автомобиль прошёл полную проверку и готов к выдаче',
       why_label: 'Преимущества', why_title: 'Почему выбирают нас',
@@ -946,6 +976,7 @@
       hero_sub: 'Exclusive offers from the world\'s leading brands. Impeccable service and a personal approach to every client.',
       hero_btn: 'View catalog <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>',
       stat_sold: 'Cars sold', stat_years: 'Years in market', stat_happy: 'Happy clients',
+      overlay_label: 'About',
       cat_label: 'Catalog', cat_title: 'Cars in stock',
       cat_sub: 'Every car has been fully inspected and is ready for delivery',
       why_label: 'Advantages', why_title: 'Why choose us',
